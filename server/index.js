@@ -1,11 +1,20 @@
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
+const {Pool, Client} = require('pg');
 const cors = require('cors');
-const {addUser, removeUser, getUser, getUsersInRoom } = require('./user');
+const {addUser, removeUser, getUser, getUsersInRoom } = require('./controllers/user');
+
+
+const databaseConnection = 'postgressql://postgres:root@localhost:5432/application';
+const client = new Client({
+    connectionString: databaseConnection
+})
+client.connect();
+
 
 const port = process.env.PORT || 5000;
-const router = require('./router');
+const router = require('./routes/router');
 
 
 const app = express();
@@ -32,6 +41,7 @@ io.on('connection', (socket) => {
         callback();
 
     });
+
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         if(user){
