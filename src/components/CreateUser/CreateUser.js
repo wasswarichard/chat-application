@@ -1,22 +1,21 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import './Join.css';
+import './CreateUser.css'
 
-const Join = () => {
+const CreateUser = () => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     return (
         <div className="joinOuterContainer">
             <div className="joinInnerContainer">
-                <h1 className="heading">Join</h1>
+                <h1 className="heading">Create User</h1>
                 <div><input placeholder="username" className="joinInput" type="text" onChange={(event) => setName(event.target.value)}/></div>
                 <div><input placeholder="chatroom" className="joinInput mt-20" type="text" onChange={(event) =>setRoom(event.target.value)}/></div>
-                <Link onClick={event => (!name || !room) ? event.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}>
-                    <button className="button mt-20" type="submit"> Sign In</button>
+                <Link onClick={event => (!name || !room) ? event.preventDefault() : null} to={`/`}>
+                    <button className="button mt-20" type="submit"> Create User</button>
                 </Link>
-                <h3><Link to={`/create`} className="createUser"> Create User Account</Link></h3>
             </div>
         </div>
     )
 }
-export default Join;
+export default CreateUser;
