@@ -5,33 +5,43 @@ import './Chat.css';
 import InfoBar from '../InfoBar/InfoBar'
 import Input from "../Input/Input";
 import Messages from "../Messages/Messages";
+import config from "../../Helpers/config.json"
 let socket;
 
 const Chat = ({location}) => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState([]);
-    const ENDPOINT = 'http://localhost:5000';
+    let [messages, setMessages] = useState([]);
     useEffect(()=> {
         const {name, room} = queryString.parse(location.search);
-        socket = io(ENDPOINT);
+        socket = io(config.apiUrl);
         setName(name);
         setRoom(room);
         socket.emit('join', {name, room}, () => {
-
+            
         });
         return () => {
             socket.emit('disconnect');
             socket.off();
         }
-    }, [ENDPOINT, location.search]);
+    }, [config.apiUrl, location.search]);
+
     useEffect(()=> {
+        socket.on('roomData', (message) => {
+            const modifiedData = message.messages.map(data => {
+                data.text = data.message;
+                data.user = data.sent_by;
+                return data;
+            });
+            messages = modifiedData.concat(messages);
+        });
         socket.on('message', (message) => {
             setMessages([...messages, message]);
 
         });
     }, [messages]);
+
     const sendMessage = (event) => {
         event.preventDefault();
         if(message) {
