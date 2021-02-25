@@ -24,18 +24,21 @@ const postUser = async (req, res) => {
     const search_words =  [];
     query && query.split('&').forEach(value => search_words.push(value.split('=')[1]));
     const user =  Users.rows.filter(row => {
-        return row.user_name === search_words[0] && row.user_room === search_words[1]
+        return row.user_room === search_words[1]
     });
-    if(user.length > 0) {
-        return res.json({  message: `User can not be created, username  ${search_words[0]} already exits in  ${search_words[1]} room` });
-    }{
+
+    if(user.length === 0 || user.length === 1){
+        if(user.length === 1 && user[0].user_name === search_words[0]){
+            return res.json({  message: `User can not be created, username  ${search_words[0]} already exits in  ${search_words[1]} room` })
+        }
         await pool.query('INSERT INTO users (user_name, user_room) VALUES ($1, $2)', [search_words[0], search_words[1]] );
         return res.send({
             username: search_words[0],
             room : search_words[1],
             message: `User with username  ${search_words[0]} in  ${search_words[1]} room has been created`
         });
-
+    }else{
+        return res.json({  message: `The ${search_words[1]} chat room has maximum members` })
     }
 }
 
@@ -54,6 +57,8 @@ const loginUser = async (req, res) =>{
     const user =  Users.rows.filter(row => {
        return row.user_name === search_words[0]
     });
+
+    console.log(Users.rows);
     if(user.length === 0){
         return res.json({
             loginSuccess: false,
