@@ -1,3 +1,6 @@
-.loading, .error {
+.loading {
     color: #fff;
+}
+.error {
+    color: #f54040;
 }
