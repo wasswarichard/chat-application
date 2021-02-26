@@ -7,7 +7,6 @@ import './CreateUser.css'
 const CreateUser = () => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
-
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
