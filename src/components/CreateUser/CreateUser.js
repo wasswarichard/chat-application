@@ -15,9 +15,7 @@ const CreateUser = () => {
     const onsubmit = async () => {
         setError(false);
         setIsLoading(true);
-        await axios.post(`${config.apiUrl}/create`,{
-            name, room
-        })
+        await axios.post(`${config.apiUrl}/create?name=${name}&room=${room}`)
             .then(response => {
                 if(response.data["code"] === 201 ) {
                     window.location.href = '/';

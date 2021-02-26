@@ -15,7 +15,7 @@ const Join = () => {
     const onsubmit = async () => {
         setError(false);
         setIsLoading(true);
-        await axios.post(`${config.apiUrl}/login`,{name, room})
+        await axios.post(`${config.apiUrl}/login?name=${name}&room=${room}`)
             .then(response => {
                 if(response.data["code"] === 200 ) {
                     window.location.href = `/chat?name=${name}&room=${room}`;
