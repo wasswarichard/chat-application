@@ -15,15 +15,9 @@ export default function reducer(state = [], action) {
         case actions.MESSAGE_REMOVED:
             return state.filter(message => message.id !== action.payload.id );
         case actions.LOGIN_USER:
-            const data =  action.payload.description;
-            // const newData =  Array.push.apply(state, data)
-            // return [{
-            //     ...state,
-            //     ...data
-            // }]
-
-            console.log(data, state);
-            return data.push(state);
+            console.log(action);
+            const data = action.payload.description
+            return {...state, ...data }
         default:
             return state;
     }

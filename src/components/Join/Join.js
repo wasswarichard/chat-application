@@ -1,11 +1,21 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import config from "../../Helpers/config.json"
 import './Join.css';
+// import store from "../../store/store";
+// import {loginUser} from "../../actions/actions";
+import store from "../../store/store";
+import {messageAdded} from "../../actions/actions";
+import queryString from "query-string";
+import io from "socket.io-client";
+// import {useDispatch, useStore} from "react-redux";
+import {connect} from "react-redux";
+// import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
 
-const Join = () => {
+
+const Join = (props) => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -18,14 +28,21 @@ const Join = () => {
         await axios.post(`${config.apiUrl}/login?name=${name}&room=${room}`)
             .then(response => {
                 if(response.data["code"] === 200 ) {
-                    window.location.href = `/chat?name=${name}&room=${room}`;
+                    props.messageAdded({name, room})
+                    // store.dispatch(messageAdded({name, room}));
+                    // console.log(store.getState());
+
+                    console.log(props.info)
+
+                    // window.location.href = `/chat`;
+
+
                 } else {
                     setError(response.data.message);
                 }
                 setIsLoading(false);
             });
     };
-
     return (
         <form onSubmit={handleSubmit(onsubmit)}>
             <div className="joinOuterContainer">
@@ -48,4 +65,8 @@ const Join = () => {
         </form>
     )
 }
-export default Join;
+const mapDispatchToProps = {messageAdded}
+const mapReduxStateToComponent = (state) =>{
+    return {info: state}
+}
+export default connect(mapReduxStateToComponent, mapDispatchToProps)(Join);
