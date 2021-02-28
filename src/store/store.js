@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware} from "redux";
+import {createStore} from "redux";
 import reducer from "../reducer/reducer";
 const initialState = {
     name: 'test',
