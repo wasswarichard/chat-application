@@ -4,15 +4,8 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import config from "../../Helpers/config.json"
 import './Join.css';
-// import store from "../../store/store";
-// import {loginUser} from "../../actions/actions";
-import store from "../../store/store";
-import {messageAdded} from "../../actions/actions";
-import queryString from "query-string";
-import io from "socket.io-client";
-// import {useDispatch, useStore} from "react-redux";
+import {UserJoined} from "../../actions/actions";
 import {connect} from "react-redux";
-// import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
 
 
 const Join = (props) => {
@@ -28,15 +21,8 @@ const Join = (props) => {
         await axios.post(`${config.apiUrl}/login?name=${name}&room=${room}`)
             .then(response => {
                 if(response.data["code"] === 200 ) {
-                    props.messageAdded({name, room})
-                    // store.dispatch(messageAdded({name, room}));
-                    // console.log(store.getState());
-
-                    console.log(props.info)
-
-                    // window.location.href = `/chat`;
-
-
+                    props.UserJoined({name, room});
+                    props.history.push('/chat');
                 } else {
                     setError(response.data.message);
                 }
@@ -65,8 +51,7 @@ const Join = (props) => {
         </form>
     )
 }
-const mapDispatchToProps = {messageAdded}
-const mapReduxStateToComponent = (state) =>{
-    return {info: state}
-}
-export default connect(mapReduxStateToComponent, mapDispatchToProps)(Join);
+const mapReduxStateToComponent = (state) =>({
+    info : state
+});
+export default connect(mapReduxStateToComponent, {UserJoined})(Join);
