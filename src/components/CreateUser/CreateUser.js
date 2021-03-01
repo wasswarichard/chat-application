@@ -5,7 +5,7 @@ import axios from 'axios';
 import config from "../../Helpers/config.json"
 import './CreateUser.css'
 
-const CreateUser = () => {
+const CreateUser = (props) => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,9 @@ const CreateUser = () => {
                 setIsLoading(false);
             });
     };
-
+    const pushBack = () => {
+        props.history.push('/');
+    }
     return (
         <form onSubmit={handleSubmit(onsubmit)}>
             <div className="joinOuterContainer">
@@ -42,7 +44,7 @@ const CreateUser = () => {
                     {errors.chatroom && errors.chatroom.type === "required" && <div><span className="error">chatroom is required</span></div>}
 
                     <button className="button mt-20" type="submit"> Create User</button>
-                    <h3><Link to={`/`} className="createUser">Login</Link></h3>
+                    <h3 onClick={pushBack} className="createUser">Login</h3>
                 </div>
             </div>
         </form>
