@@ -1,7 +1,7 @@
 # Realtime Chat Application
 Is a one-to-one real time chat web application .\
 The application runs on https://chatrw-application.herokuapp.com/ remotely
-
+![](src/images/chat-application.PNG)
 ### `Using the Realtime Chat Application`.
 #### `New user`.
 1. Upon launching the application click the create user account and create an account providing the username and chatroom
@@ -19,7 +19,4 @@ The application runs on https://chatrw-application.herokuapp.com/ remotely
 3. The application will run on http://localhost:3000 . The application will hit the backend server remotely at https://chats-application-server.herokuapp.com or you change to a local backend on your machine pulled from https://github.com/wasswarichard/chat-application-server repository.
 
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
+![](src/images/unittests.PNG)
