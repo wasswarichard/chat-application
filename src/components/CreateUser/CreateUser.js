@@ -12,22 +12,24 @@ const CreateUser = (props) => {
     const [error, setError] = useState(null);
     const { register, handleSubmit, errors } = useForm();
 
+    const pushBack = () => {
+        props.history.push('/');
+    }
     const onsubmit = async () => {
         setError(false);
         setIsLoading(true);
         await axios.post(`${config.apiUrl}/create?name=${name}&room=${room}`)
             .then(response => {
                 if(response.data["code"] === 201 ) {
-                    window.location.href = '/';
+                    // window.location.href = '/';
+                    pushBack();
                 } else {
                     setError(response.data.message);
                 }
                 setIsLoading(false);
             });
     };
-    const pushBack = () => {
-        props.history.push('/');
-    }
+
     return (
         <form onSubmit={handleSubmit(onsubmit)}>
             <div className="joinOuterContainer">
