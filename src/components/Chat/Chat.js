@@ -13,7 +13,7 @@ const Chat = (props) => {
     let [messages, setMessages] = useState([]);
     useEffect(()=> {
         socket = io(config.apiUrl);
-        socket.emit('join', {name: props.name, room: props.room}, () => {});
+        socket.emit('join', {name: props.name, room: props.room}, (error) => {});
         return () => {
             socket.emit('disconnect');
             socket.off();
@@ -27,12 +27,13 @@ const Chat = (props) => {
                 data.user = data.sent_by;
                 return data;
             });
-            messages = modifiedData.concat(messages);
+            setMessages([...messages, ...modifiedData])
         });
         socket.on('message', (message) => {
             setMessages([...messages, message]);
 
         });
+
     }, [messages]);
 
     const sendMessage = (event) => {
