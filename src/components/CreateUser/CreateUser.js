@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import config from "../../Helpers/config.json"
@@ -21,7 +20,6 @@ const CreateUser = (props) => {
         await axios.post(`${config.apiUrl}/create?name=${name}&room=${room}`)
             .then(response => {
                 if(response.data["code"] === 201 ) {
-                    // window.location.href = '/';
                     pushBack();
                 } else {
                     setError(response.data.message);

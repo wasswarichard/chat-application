@@ -8,12 +8,12 @@ import config from "../../Helpers/config.json"
 import {connect} from "react-redux";
 let socket;
 
-const Chat = (props) => {
+const Chat = ({name, room}) => {
     const [message, setMessage] = useState('');
     let [messages, setMessages] = useState([]);
     useEffect(()=> {
         socket = io(config.apiUrl);
-        socket.emit('join', {name: props.name, room: props.room}, (error) => {});
+        socket.emit('join', {name, room}, (error) => {});
         return () => {
             socket.emit('disconnect');
             socket.off();
@@ -47,8 +47,8 @@ const Chat = (props) => {
     return (
         <div className="outerContainer">
             <div className="container">
-                <InfoBar room = {props.room}/>
-                <Messages messages={messages} name={props.name}/>
+                <InfoBar room = {room}/>
+                <Messages messages={messages} name={name}/>
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage}/>
             </div>
         </div>
